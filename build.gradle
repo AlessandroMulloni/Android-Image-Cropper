@@ -4,7 +4,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
     }
 }
 
@@ -18,12 +19,10 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 28
-    buildToolsVersion = '28.0.3'
-    androidXLibraryVersion = '1.0.0'
+    compileSdkVersion = 29
+    buildToolsVersion = '29.0.2'
 
     PUBLISH_GROUP_ID = 'com.theartofdev.edmodo'
     PUBLISH_ARTIFACT_ID = 'android-image-cropper'
-    PUBLISH_VERSION = '2.8.0'
-    // gradlew clean build generateRelease
+    PUBLISH_VERSION = '2.8.1'
 }
