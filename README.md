@@ -142,6 +142,13 @@ For more information, see the [GitHub Wiki](https://github.com/ArthurHub/Android
  - [Adding auto-zoom feature to Android-Image-Cropper](https://theartofdev.com/2016/04/25/adding-auto-zoom-feature-to-android-image-cropper/)
 
 ## Change log
+*2.8.2*
+- Fix issue with intents on Android 11+
+- Fix issue with camera capture
+
+*2.8.1*
+- Fix issue with camera capture on Android 10
+
 *2.8.0*
 - Fix crash on Android O (thx @juliooa)
 - Update to support library to AndroidX (thx @mradzinski)
