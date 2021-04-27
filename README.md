@@ -28,6 +28,21 @@ Add permissions to manifest
  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
  ```
+
+Since Android 11, add these queries to the manifest
+
+ ```
+ <queries>
+     <intent>
+         <action android:name="android.media.action.IMAGE_CAPTURE" />
+     </intent>
+     <intent>
+         <action android:name="android.intent.action.PICK" />
+         <data android:mimeType="image/jpeg" />
+     </intent>
+ </queries>
+ ```
+
 Add this line to your Proguard config file
 
 ```
