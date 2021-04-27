@@ -26,6 +26,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -286,15 +288,12 @@ public class CropImageActivity extends AppCompatActivity
   protected Uri getOutputUri() {
     Uri outputUri = mOptions.outputUri;
     if (outputUri == null || outputUri.equals(Uri.EMPTY)) {
-      try {
         String ext =
             mOptions.outputCompressFormat == Bitmap.CompressFormat.JPEG
                 ? ".jpg"
                 : mOptions.outputCompressFormat == Bitmap.CompressFormat.PNG ? ".png" : ".webp";
-        outputUri = Uri.fromFile(File.createTempFile("cropped", ext, getCacheDir()));
-      } catch (IOException e) {
-        throw new RuntimeException("Failed to create temp file for output image", e);
-      }
+        File file = CropFileProvider.cacheFile(this, ext);
+        outputUri = FileProvider.getUriForFile(getApplicationContext(), CropFileProvider.authority(getApplicationContext()), file);
     }
     return outputUri;
   }
