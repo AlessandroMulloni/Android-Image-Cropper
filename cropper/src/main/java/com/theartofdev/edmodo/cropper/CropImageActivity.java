@@ -34,7 +34,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Built-in activity for image cropping.<br>
@@ -292,7 +291,7 @@ public class CropImageActivity extends AppCompatActivity
             mOptions.outputCompressFormat == Bitmap.CompressFormat.JPEG
                 ? ".jpg"
                 : mOptions.outputCompressFormat == Bitmap.CompressFormat.PNG ? ".png" : ".webp";
-        File file = CropFileProvider.cacheFile(this, ext);
+        File file = CropFileProvider.file(this, ext);
         outputUri = FileProvider.getUriForFile(getApplicationContext(), CropFileProvider.authority(getApplicationContext()), file);
     }
     return outputUri;

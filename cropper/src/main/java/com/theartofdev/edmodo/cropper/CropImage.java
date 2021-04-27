@@ -31,7 +31,6 @@ import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -229,12 +228,11 @@ public final class CropImage {
    */
   public static Intent getCameraIntent(@NonNull Context context, Uri outputFileUri) {
     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    if (outputFileUri == null) {
-      outputFileUri = getCaptureImageOutputUri(context);
-    }
     intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
     return intent;
   }
+
+  static Uri outputFileUri;
 
   /** Get all Camera intents for capturing image using device camera apps. */
   public static List<Intent> getCameraIntents(
@@ -243,7 +241,7 @@ public final class CropImage {
     List<Intent> allIntents = new ArrayList<>();
 
     // Determine Uri of camera image to  save.
-    Uri outputFileUri = getCaptureImageOutputUri(context);
+    outputFileUri = getCaptureImageOutputUri(context);
 
     Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
@@ -251,9 +249,7 @@ public final class CropImage {
       Intent intent = new Intent(captureIntent);
       intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
       intent.setPackage(res.activityInfo.packageName);
-      if (outputFileUri != null) {
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-      }
+      intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
       allIntents.add(intent);
     }
 
@@ -343,7 +339,7 @@ public final class CropImage {
    */
   public static Uri getCaptureImageOutputUri(@NonNull Context context) {
     try {
-      File file = CropFileProvider.cacheFile(context, ".jpg");
+      File file = CropFileProvider.file(context, ".jpg");
       return FileProvider.getUriForFile(context, CropFileProvider.authority(context), file);
     } catch (Exception e) {
       return null;
@@ -359,12 +355,7 @@ public final class CropImage {
    * @param data the returned data of the activity result
    */
   public static Uri getPickImageResultUri(@NonNull Context context, @Nullable Intent data) {
-    boolean isCamera = true;
-    if (data != null && data.getData() != null) {
-      String action = data.getAction();
-      isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
-    }
-    return isCamera || data.getData() == null ? getCaptureImageOutputUri(context) : data.getData();
+    return outputFileUri;
   }
 
   /**

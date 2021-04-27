@@ -379,7 +379,7 @@ final class BitmapUtils {
       boolean needSave = true;
       if (uri == null) {
 
-        File file = CropFileProvider.cacheFile(context, ".jpg");
+        File file = CropFileProvider.file(context, ".jpg");
         uri = FileProvider.getUriForFile(context, CropFileProvider.authority(context), file);
       } else if (new File(uri.getPath()).exists()) {
         needSave = false;
