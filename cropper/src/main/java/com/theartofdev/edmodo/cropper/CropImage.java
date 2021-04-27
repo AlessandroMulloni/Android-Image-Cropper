@@ -355,7 +355,12 @@ public final class CropImage {
    * @param data the returned data of the activity result
    */
   public static Uri getPickImageResultUri(@NonNull Context context, @Nullable Intent data) {
-    return outputFileUri;
+    boolean isCamera = true;
+    if (data != null && data.getData() != null) {
+      String action = data.getAction();
+      isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
+    }
+    return isCamera || data.getData() == null ? outputFileUri : data.getData();
   }
 
   /**
